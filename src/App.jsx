@@ -10,6 +10,7 @@ const Coindle = () => {
   const [showResult, setShowResult] = useState(false);
   const [lastResult, setLastResult] = useState(null);
   const [selectedChoice, setSelectedChoice] = useState(null);
+  const [copied, setCopied] = useState(false);
   const coinRef = useRef(null);
   const floorRef = useRef(null);
 
@@ -95,9 +96,10 @@ const Coindle = () => {
   };
 
   const shareScore = () => {
-    const text = `🪙 Coindle ${getTodayDate()}\nStreak: ${score} 🎯\n\nPlay at Coindle!`;
+    const text = `Coindle ${getTodayDate()}\nStreak: ${score}\n\nPlay at https://muhashi.com/coindle`;
     navigator.clipboard.writeText(text);
-    alert('Score copied to clipboard!');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const resetForTomorrow = () => {
@@ -371,9 +373,9 @@ const Coindle = () => {
                     size="lg"
                     onClick={shareScore}
                     fullWidth
-                    style={{ background: '#228be6' }}
+                    style={{ background: copied ? '#40c057' : '#228be6' }}
                   >
-                    📋 Share Score
+                    {copied ? '✓ Copied!' : '📋 Share Score'}
                   </Button>
                   <Text size="sm" c="dimmed" ta="center">
                     Come back tomorrow to play again!
