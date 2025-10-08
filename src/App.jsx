@@ -73,7 +73,6 @@ const Coindle = () => {
 
       // Wait for animation to complete (1s)
       setTimeout(() => {
-        setIsFlipping(false);
         setLastResult(result);
         setShowResult(true);
 
@@ -84,11 +83,13 @@ const Coindle = () => {
             const newScore = score + 1;
             setScore(newScore);
             setShowResult(false);
+            setIsFlipping(false);
           } else {
-            // Lose
+            // Lose - set gameOver first, then isFlipping
             setGameOver(true);
             setHasPlayedToday(true);
             saveGameState(score);
+            setIsFlipping(false);
           }
         }, 1000);
       }, 1000);
@@ -393,7 +394,8 @@ const Coindle = () => {
           </Paper>
 
           <Text size="sm" c="dimmed" ta="center">
-            Game by <Anchor href="https://muhashi.com" target="_blank">muhashi</Anchor>.
+            Get as many correct guesses in a row as you can!<br />
+            One game per day.
           </Text>
         </Stack>
       </Container>
