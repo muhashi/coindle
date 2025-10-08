@@ -1,16 +1,10 @@
-# React + Vite
+# Coindle
+## Get as many coin flips correct in a row as you can. Only one attempt per day.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img width="1936" height="1328" alt="image" src="https://github.com/user-attachments/assets/34cae801-cae0-45be-8626-2819bb87f292" />
 
-Currently, two official plugins are available:
+[Try the game out here](https://muhashi.com/coindle/)! 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Deployment
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If you want to host this on your own domain, fork/clone the repo and run `npm install` at the root. In `vite.config.json` change the `base` attribute to whatever directory you will be hosting on. Run `npm run dev` to make sure it compiles correctly, and then committing to your repo. You will need to set GH Pages to deploy via Actions, and allow Actions permissions to read and write. 
