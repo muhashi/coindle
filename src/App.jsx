@@ -96,7 +96,8 @@ const Coindle = () => {
   };
 
   const shareScore = () => {
-    const text = `Coindle ${getTodayDate()}\nStreak: ${score}\n\nPlay at https://muhashi.com/coindle`;
+    const scoreText = score === 0 ? '0 💩' : score + ' ' + '🪙'.repeat(score);
+    const text = `Coindle ${getTodayDate()}\nStreak: ${scoreText}\n\nPlay at https://muhashi.com/coindle`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
