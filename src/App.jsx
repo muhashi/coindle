@@ -24,7 +24,23 @@ const Coindle = () => {
 
   const getTodayDate = () => {
     const today = new Date();
-    return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    return `${today.getUTCFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDate()}`;
+  };
+
+  const getTimeUntilNextUTCDay = () => {
+    const now = new Date();
+    const tomorrowUTC = new Date(Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + 1,
+      0, 0, 0, 0
+    ));
+    
+    const diff = tomorrowUTC - now;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return `${hours}h ${minutes}m`;
   };
 
   const checkIfPlayedToday = async () => {
@@ -486,6 +502,7 @@ const Coindle = () => {
                   <Text size="sm" c="dimmed" ta="center">
                     Come back tomorrow to play again!
                   </Text>
+                  <Text c="dimmed">Next challenge in: {getTimeUntilNextUTCDay()}</Text>
                 </Stack>
               )}
 
