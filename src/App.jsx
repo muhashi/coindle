@@ -473,9 +473,16 @@ const Coindle = () => {
                             <Text size="lg" fw={700}>{stats.topScore}</Text>
                           </div>
                         </Group>
-                        {stats.percentile !== null && (
+                        {stats.percentile !== null && stats.percentile !== 0 && (
                           <Text size="sm" ta="center" mt="xs" c="blue">
                             You're in the top {100 - stats.percentile}% of players! 🎉
+                          </Text>
+                        )}
+                        {stats.percentile !== null && stats.percentile === 0 && (
+                          <Text size="sm" ta="center" mt="xs" c="blue">
+                            You literally have the worst score possible.
+                            <br />
+                            In a way, congrats 🥳
                           </Text>
                         )}
                       </Stack>
