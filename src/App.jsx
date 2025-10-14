@@ -11,8 +11,12 @@ const Coindle = () => {
   const [lastResult, setLastResult] = useState(null);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [stats, setStats] = useState(null);
   const coinRef = useRef(null);
   const floorRef = useRef(null);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+  const SECRET_KEY = import.meta.env.VITE_SECRET_KEY || 'secret-key';
 
   useEffect(() => {
     checkIfPlayedToday();
@@ -23,7 +27,7 @@ const Coindle = () => {
     return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
   };
 
-  const checkIfPlayedToday = () => {
+  const checkIfPlayedToday = async () => {
     const lastPlayDate = JSON.parse(localStorage.getItem('coindleLastPlay') || '{}');
     const today = getTodayDate();
     
@@ -31,6 +35,64 @@ const Coindle = () => {
       setHasPlayedToday(true);
       setScore(lastPlayDate.score || 0);
       setGameOver(true);
+      
+      // Fetch stats with percentile
+      try {
+        const statsResponse = await fetch(`${API_URL}/stats/${lastPlayDate.score || 0}`);
+        const statsData = await statsResponse.json();
+        setStats(statsData);
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    }
+  };
+
+  const generateToken = async (score, date) => {
+    const message = `${score}:${date}`;
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(SECRET_KEY);
+    const messageData = encoder.encode(message);
+    
+    const key = await crypto.subtle.importKey(
+      'raw',
+      keyData,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+    
+    const signature = await crypto.subtle.sign('HMAC', key, messageData);
+    return Array.from(new Uint8Array(signature))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  };
+
+  const submitScore = async (finalScore) => {
+    try {
+      const date = getTodayDate();
+      const token = await generateToken(finalScore, date);
+
+      const response = await fetch(`${API_URL}/submit-score`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          score: finalScore,
+          date,
+          token
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setStats(data.stats);
+      } else {
+        console.error('Error submitting score:', data.error);
+      }
+    } catch (error) {
+      console.error('Error submitting score:', error);
     }
   };
 
@@ -40,6 +102,9 @@ const Coindle = () => {
       date: today,
       score: finalScore
     }));
+    
+    // Submit score to server
+    submitScore(finalScore);
   };
 
   const flipCoin = (choice) => {
@@ -371,6 +436,36 @@ const Coindle = () => {
                   <Text size="md" c="dimmed" ta="center">
                     Final Streak: {score}
                   </Text>
+                  
+                  {stats && (
+                    <Paper p="md" style={{ width: '100%', background: '#f8f9fa' }}>
+                      <Stack gap="xs">
+                        <Text size="sm" fw={700} ta="center">
+                          📊 Today's Global Stats
+                        </Text>
+                        <Group gap="xl" justify="center">
+                          <div style={{ textAlign: 'center' }}>
+                            <Text size="xs" c="dimmed">Players</Text>
+                            <Text size="lg" fw={700}>{stats.totalPlayers}</Text>
+                          </div>
+                          <div style={{ textAlign: 'center' }}>
+                            <Text size="xs" c="dimmed">Average</Text>
+                            <Text size="lg" fw={700}>{stats.averageScore}</Text>
+                          </div>
+                          <div style={{ textAlign: 'center' }}>
+                            <Text size="xs" c="dimmed">Top Score</Text>
+                            <Text size="lg" fw={700}>{stats.topScore}</Text>
+                          </div>
+                        </Group>
+                        {stats.percentile !== null && (
+                          <Text size="sm" ta="center" mt="xs" c="blue">
+                            You're in the top {100 - stats.percentile}% of players! 🎉
+                          </Text>
+                        )}
+                      </Stack>
+                    </Paper>
+                  )}
+                  
                   <Button
                     size="lg"
                     onClick={shareScore}
@@ -394,8 +489,7 @@ const Coindle = () => {
           </Paper>
 
           <Text size="sm" c="dimmed" ta="center">
-            Get as many correct guesses in a row as you can!<br />
-            One game per day.
+            Game by <Anchor href="https://muhashi.com" target="_blank">muhashi</Anchor>.
           </Text>
         </Stack>
       </Container>
