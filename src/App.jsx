@@ -507,9 +507,8 @@ const Coindle = () => {
                     {copied ? '✓ Copied!' : '📋 Share Score'}
                   </Button>
                   <Text size="sm" c="dimmed" ta="center">
-                    Come back tomorrow to play again!
+                    Next round in: {getTimeUntilNextUTCDay()}
                   </Text>
-                  <Text c="dimmed">Next challenge in: {getTimeUntilNextUTCDay()}</Text>
                 </Stack>
               )}
 
