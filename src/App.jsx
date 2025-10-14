@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MantineProvider, Container, Title, Text, Button, Group, Paper, Stack, Anchor } from '@mantine/core';
+import { MantineProvider, Container, Title, Text, Button, Group, Paper, Stack, Anchor, Loader } from '@mantine/core';
 import '@mantine/core/styles.css';
 
 const Coindle = () => {
@@ -464,6 +464,15 @@ const Coindle = () => {
                         )}
                       </Stack>
                     </Paper>
+                  )}
+
+                  {!stats && (
+                    <>
+                      <Loader />
+                      <Text size="sm" c="dimmed" ta="center">
+                        Loading stats...
+                      </Text>
+                    </>
                   )}
                   
                   <Button
