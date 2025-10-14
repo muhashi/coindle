@@ -488,7 +488,7 @@ const Coindle = () => {
             </Stack>
           </Paper>
 
-          <Text size="sm" c="dimmed" ta="center">
+          <Text size="sm" c="dimmed" ta="center" pb="3rem">
             Game by <Anchor href="https://muhashi.com" target="_blank">muhashi</Anchor>.
           </Text>
         </Stack>
