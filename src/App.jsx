@@ -478,7 +478,7 @@ const Coindle = () => {
                             You're in the top {100 - stats.percentile}% of players! 🎉
                           </Text>
                         )}
-                        {stats.percentile !== null && stats.percentile === 0 && (
+                        {stats.percentile !== null && stats.percentile === 0 && score === 0 && (
                           <Text size="sm" ta="center" mt="xs" c="blue">
                             You literally have the worst score possible.
                             <br />
