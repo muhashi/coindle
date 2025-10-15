@@ -478,7 +478,7 @@ const Coindle = () => {
                             You're the top player today! 🏆
                           </Text>
                         )}
-                        {stats.percentile !== null && stats.topScore !== score && score !== 0 (
+                        {stats.percentile !== null && stats.topScore !== score && score !== 0 && (
                           <Text size="sm" ta="center" mt="xs" c="blue">
                             You're in the top {100 - stats.percentile}% of players! 🎉
                           </Text>
