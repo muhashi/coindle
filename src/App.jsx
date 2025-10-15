@@ -482,7 +482,7 @@ const Coindle = () => {
                           <Text size="sm" ta="center" mt="xs" c="blue">
                             You literally have the worst score possible.
                             <br />
-                            In a way, congrats 🥳
+                            Congrats 🥳
                           </Text>
                         )}
                       </Stack>
