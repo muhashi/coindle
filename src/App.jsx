@@ -525,9 +525,14 @@ const Coindle = () => {
             </Stack>
           </Paper>
 
-          <Text size="sm" c="dimmed" ta="center" pb="3rem">
-            Game by <Anchor href="https://muhashi.com" target="_blank">muhashi</Anchor>.
-          </Text>
+          <Group gap="md" direction="column"  pb="3rem">
+            <Text size="sm" c="dimmed" ta="center">
+              Game by <Anchor href="https://muhashi.com" target="_blank">muhashi</Anchor>.
+            </Text>
+            <a href='https://ko-fi.com/D1D5V1DSF' target='_blank'>
+              <img height='36' style={{border: 0, height: '36px'}} src='https://storage.ko-fi.com/cdn/kofi2.png?v=3' alt='Buy Me a Coffee at ko-fi.com' />
+            </a>
+          </Group>
         </Stack>
       </Container>
     </MantineProvider>
