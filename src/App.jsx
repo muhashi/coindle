@@ -54,7 +54,7 @@ const Coindle = () => {
       
       // Fetch stats with percentile
       try {
-        const statsResponse = await fetch(`${API_URL}/stats/${lastPlayDate.score || 0}`);
+        const statsResponse = await fetch(`${API_URL}/api/stats/${lastPlayDate.score || 0}`);
         const statsData = await statsResponse.json();
         setStats(statsData);
       } catch (error) {
@@ -88,7 +88,7 @@ const Coindle = () => {
       const date = getTodayDate();
       const token = await generateToken(finalScore, date);
 
-      const response = await fetch(`${API_URL}/submit-score`, {
+      const response = await fetch(`${API_URL}/api/submit-score`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
